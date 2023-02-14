@@ -107,13 +107,24 @@ router.put("/updateBook/:id", async (req, res) => {
 // DELETE BOOK
 router.delete("/deleteBook/:id", async (req, res) => {
   db.query(
-    // "DELETE FROM booklist WHERE booklist.BOOK_ID = ?",
-    "DELETE FROM booklist WHERE booklist.BOOK_ID = ?",
+    "SELECT BOOK_ID from issue_book WHERE BOOK_ID = ?",
     [req.params.id],
     (err, result) => {
-      if (result) {
-        res.status(201).send({ message: "BOOK DELETED SUCCESSFULLY." });
-      }
+      if (result.length > 0)
+        return res
+          .status(409)
+          .send({ message: "This Book is currenttly borrowed." });
+
+      // Delete the book query
+      db.query(
+        "DELETE FROM booklist WHERE booklist.BOOK_ID = ?",
+        [req.params.id],
+        (err, result) => {
+          if (result) {
+            res.status(201).send({ message: "BOOK DELETED SUCCESSFULLY." });
+          }
+        }
+      );
     }
   );
 });
