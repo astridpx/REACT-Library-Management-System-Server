@@ -5,7 +5,8 @@ const db = require("../config/config");
 router.get("/", async (req, res) => {
   db.query("SELECT * FROM booklist", (err, result) => {
     if (err) {
-      res.status(409).send({ message: "SOMETHING WENT WRONG " + err });
+      res.status(409).send(err);
+      console.log(err);
     } else {
       res.json(result);
     }
