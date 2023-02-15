@@ -25,28 +25,28 @@ const session = require("express-session");
 
 // middleware
 app.use(express.json());
-// app.use(cors());
-app.use(
-  cors({
-    // origin: ["http://localhost:5000"],
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    credentials: true,
-  })
-);
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(
-  session({
-    key: "userId",
-    secret: process.env.COOKIE_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      expires: 60 * 60 * 24,
-    },
-  })
-);
+app.use(cors());
+// app.use(
+//   cors({
+//     // origin: ["http://localhost:5000"],
+//     origin: "*",
+//     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+//     credentials: true,
+//   })
+// );
+// app.use(cookieParser());
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(
+//   session({
+//     key: "userId",
+//     secret: process.env.COOKIE_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       expires: 60 * 60 * 24,
+//     },
+//   })
+// );
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
