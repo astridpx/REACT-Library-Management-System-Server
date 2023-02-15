@@ -14,6 +14,7 @@ router.get("/", async (req, res) => {
   db.query("SELECT * FROM admin WHERE ADMIN_ID=?", [1], (err, result) => {
     if (err) {
       res.status(409).send({ message: "SOMETHING WENT WRONG " + err });
+      console.log(err);
     } else {
       res.json(result);
     }
@@ -26,6 +27,8 @@ router.post("/adminLogin", async (req, res) => {
   const password = req.body.password;
 
   db.query("SELECT * FROM admin WHERE email=?", [email], (err, result) => {
+    if (err) console.log(err);
+
     if (result.length > 0) {
       const userEmail = result[0].email;
       bcrypt.compare(password, result[0].password).then((match) => {

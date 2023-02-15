@@ -61,16 +61,16 @@ db.connect((err) => {
   }
 });
 
-const Logger = (req, res, next) => {
-  console.log(
-    `${req.protocol}://${req.get("host")}${
-      req.originalUrl
-    } : ${moment().format()}`
-  );
-  next();
-};
+// const Logger = (req, res, next) => {
+//   console.log(
+//     `${req.protocol}://${req.get("host")}${
+//       req.originalUrl
+//     } : ${moment().format()}`
+//   );
+//   next();
+// };
 
-app.use(Logger);
+// app.use(Logger);
 app.use("/admin", adminRouter);
 app.use("/token", TokenVeifyRoutes);
 app.use("/books", bookRoutes);

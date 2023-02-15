@@ -13,6 +13,8 @@ router.post("/", async (req, res) => {
     "SELECT * FROM student_acc WHERE email=?",
     [email],
     (err, result) => {
+      if (err) console.log(err);
+
       if (result.length > 0) {
         bcrypt.compare(password, result[0].password).then((match) => {
           if (!match) {
