@@ -2,9 +2,9 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../config/config");
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const session = require("express-session");
+// const cookieParser = require("cookie-parser");
+// const bodyParser = require("body-parser");
+// const session = require("express-session");
 require("dotenv").config();
 
 const salt = 10;
@@ -39,8 +39,7 @@ router.post("/adminLogin", async (req, res) => {
               expiresIn: "10h",
             }
           );
-          req.session.user = result;
-
+          // req.session.user = result;
           // console.log(req.session.user);
           res
             .status(200)
