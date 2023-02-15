@@ -27,10 +27,12 @@ router.post("/adminLogin", async (req, res) => {
   const password = req.body.password;
 
   db.query("SELECT * FROM admin WHERE email=?", [email], (err, result) => {
+    console.log(result);
     if (err) console.log(err);
 
     if (result.length > 0) {
       const userEmail = result[0].email;
+      const role = result[0].role;
       bcrypt.compare(password, result[0].password).then((match) => {
         if (!match) {
           res.status(409).send({ message: "PASSWORD IS INCORRECT." });
@@ -44,9 +46,12 @@ router.post("/adminLogin", async (req, res) => {
           );
           // req.session.user = result;
           // console.log(req.session.user);
-          res
-            .status(200)
-            .send({ message: "LOGIN SUCCESS.", email: userEmail, token });
+          res.status(200).send({
+            message: "LOGIN SUCCESS.",
+            email: userEmail,
+            role: role,
+            token,
+          });
         }
       });
     } else {
