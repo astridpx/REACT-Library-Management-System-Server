@@ -25,15 +25,14 @@ const session = require("express-session");
 
 // middleware
 app.use(express.json());
-app.use(cors());
-// app.use(
-//   cors({
-//     // origin: ["http://localhost:5000"],
-//     origin: "*",
-//     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-//     credentials: true,
-//   })
-// );
+// app.use(cors());
+app.use(
+  cors({
+    // origin: ["http://localhost:5000"],
+    origin: "*",
+    credentials: true,
+  })
+);
 // app.use(cookieParser());
 // app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(
