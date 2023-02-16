@@ -61,13 +61,22 @@ app.listen(port, () => {
   console.log(`Server is Up and Running at port ${port}`);
 });
 
-db.connect((err) => {
+db.getConnection((err, conn) => {
   if (!err) {
     console.log("MySQL connection stablished...");
   } else {
-    console.log(err);
+    console.log("MySQL connection is broken.");
+    throw err;
   }
 });
+
+// db.connect((err) => {
+//   if (!err) {
+//     console.log("MySQL connection stablished...");
+//   } else {
+//     throw err;
+//   }
+// });
 
 // const Logger = (req, res, next) => {
 //   console.log(
