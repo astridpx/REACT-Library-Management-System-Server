@@ -27,7 +27,6 @@ router.post("/adminLogin", async (req, res) => {
   const password = req.body.password;
 
   db.query("SELECT * FROM admin WHERE email=?", [email], (err, result) => {
-    console.log(result);
     if (err) console.log(err);
 
     if (result.length > 0) {
