@@ -16,15 +16,13 @@ const studentRecord = require("./routes/student.routes");
 
 // TOKEN ROUTES
 const TokenVeifyRoutes = require("./routes/token Verification/tokenVerify.routes");
-
+const EmailTokenRoutes = require("./routes/Email/EmailToken.routes");
 // db config
 const db = require("./config/config");
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const session = require("express-session");
 
 // middleware
 app.use(express.json());
+app.set("view engine", "ejs");
 // app.use(cors());
 app.use(
   cors({
@@ -42,19 +40,6 @@ app.use(
 //   );
 //   next();
 // });
-// app.use(cookieParser());
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(
-//   session({
-//     key: "userId",
-//     secret: process.env.COOKIE_SECRET,
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//       expires: 60 * 60 * 24,
-//     },
-//   })
-// );
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
@@ -90,6 +75,7 @@ db.getConnection((err, conn) => {
 // app.use(Logger);
 app.use("/admin", adminRouter);
 app.use("/token", TokenVeifyRoutes);
+app.use("/email-token", EmailTokenRoutes);
 app.use("/books", bookRoutes);
 app.use("/students", studentRoutes);
 app.use("/students/login", studentLoginRoutes);

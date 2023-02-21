@@ -2,9 +2,8 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../config/config");
-// const cookieParser = require("cookie-parser");
-// const bodyParser = require("body-parser");
-// const session = require("express-session");
+const emailValidator = require("./Email/emailValidator");
+
 require("dotenv").config();
 
 const salt = 10;
@@ -94,4 +93,31 @@ router.put("/update-admin/:id", async (req, res) => {
     );
   });
 });
+
+router.post("/:email", async (req, res) => {
+  const email = req.params.email;
+
+  const { valid, reason, validators } = await emailValidator(email);
+
+  if (!valid)
+    return res.status(400).send({
+      message: "Please provide a valid email address.",
+      reason: validators[reason].reason,
+    });
+
+  const token = jwt.sign({ email: email }, process.env.JWTPRIVATEKEY, {
+    expiresIn: "1m",
+  });
+
+  res.json(token);
+});
+
+router.get("/token/:token", async (req, res) => {
+  jwt.verify(req.params.token, process.env.JWTPRIVATEKEY, (err, decoded) => {
+    if (err) return res.render("../pages/invalidToken");
+
+    return res.render("../pages/validToken");
+  });
+});
+
 module.exports = router;

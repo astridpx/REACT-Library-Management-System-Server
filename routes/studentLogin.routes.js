@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const cookie = require("cookie-parser");
 const db = require("../config/config");
 require("dotenv").config();
 

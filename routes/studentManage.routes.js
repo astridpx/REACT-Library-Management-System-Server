@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const db = require("../config/config");
-
+const emailValidator = require("./Email/emailValidator");
 // SALT ROUNDS
 const salt = 10;
 
@@ -85,6 +85,15 @@ router.post("/register", async (req, res) => {
   const course = req.body.course;
   const email = req.body.email;
   const password = req.body.password;
+
+  // Email Validator
+  const { valid, reason, validators } = await emailValidator(email);
+
+  if (!valid)
+    return res.status(400).send({
+      message: "Please provide a valid email address.",
+      reason: validators[reason].reason,
+    });
 
   db.query(
     "SELECT * FROM student_acc WHERE stud_no=?",
