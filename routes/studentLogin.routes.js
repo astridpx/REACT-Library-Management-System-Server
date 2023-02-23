@@ -2,13 +2,23 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../config/config");
+const MessageMailer = require("./Email/nodemailer/SendEmail");
 require("dotenv").config();
 
 router.post("/", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  await db.query(
+  //  GEnerate token for email confirmation
+  const emailToken = await jwt.sign(
+    { email: email },
+    process.env.JWTPRIVATEKEY,
+    {
+      expiresIn: "3m",
+    }
+  );
+
+  db.query(
     "SELECT * FROM student_acc WHERE email=?",
     [email],
     (err, result) => {
@@ -19,6 +29,15 @@ router.post("/", async (req, res) => {
           if (!match) {
             res.status(409).send({ message: "PASSWORD IS INCORRECT." });
           } else {
+            if (result[0].isVerify === "false") {
+              return MessageMailer(email, emailToken).then(() =>
+                res.status(409).send({
+                  message:
+                    "We sent an email verification. Pls confirm your email.",
+                })
+              );
+            }
+
             if (result[0].role === "student") {
               const token = jwt.sign(
                 { id: result[0].id },

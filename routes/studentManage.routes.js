@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const db = require("../config/config");
+const jwt = require("jsonwebtoken");
 const emailValidator = require("./Email/emailValidator");
+const MessageMailer = require("./Email/nodemailer/SendEmail");
 // SALT ROUNDS
 const salt = 10;
 
@@ -95,6 +97,11 @@ router.post("/register", async (req, res) => {
       reason: validators[reason].reason,
     });
 
+  //  GEnerate token for email confirmation
+  const emailToken = jwt.sign({ email: email }, process.env.JWTPRIVATEKEY, {
+    expiresIn: "3m",
+  });
+
   db.query(
     "SELECT * FROM student_acc WHERE stud_no=?",
     [studNo],
@@ -129,9 +136,10 @@ router.post("/register", async (req, res) => {
                         .status(409)
                         .send({ message: "SOMETHING WENT WRONG " + err });
                     } else {
+                      MessageMailer(email, emailToken);
                       res.status(200).send({
                         message:
-                          "User Registered Successfully. Please wait for the admin confirmation.",
+                          "User Registered Successfully. Please wait for the admin confirmation and don't forget to confirm your own email.",
                       });
                     }
                   }
