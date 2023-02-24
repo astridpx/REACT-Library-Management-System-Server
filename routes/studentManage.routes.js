@@ -98,7 +98,7 @@ router.post("/register", async (req, res) => {
     });
 
   //  GEnerate token for email confirmation
-  const emailToken = jwt.sign({ email: email }, process.env.JWTPRIVATEKEY, {
+  const emailToken = jwt.sign({ email: email }, process.env.EMAIL_TOKEN_KEY, {
     expiresIn: "3m",
   });
 

@@ -13,7 +13,7 @@ const MessageMailer = async function (email, token) {
     from: "styles132001@gmail.com",
     to: email,
     subject: "SVCC Library",
-    html: `<p>Click <a href="http://localhost:5000/email-token/${email}/${token}">here</a> to reset your password</p>`,
+    html: `<p>Click <a href="http://localhost:5000/email-token/${email}/${token}">here</a> to confirm your account</p>`,
   };
 
   transporter.sendMail(details, (err) => {

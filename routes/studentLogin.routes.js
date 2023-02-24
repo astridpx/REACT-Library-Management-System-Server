@@ -10,13 +10,9 @@ router.post("/", async (req, res) => {
   const password = req.body.password;
 
   //  GEnerate token for email confirmation
-  const emailToken = await jwt.sign(
-    { email: email },
-    process.env.JWTPRIVATEKEY,
-    {
-      expiresIn: "3m",
-    }
-  );
+  const emailToken = jwt.sign({ email: email }, process.env.EMAIL_TOKEN_KEY, {
+    expiresIn: "3m",
+  });
 
   db.query(
     "SELECT * FROM student_acc WHERE email=?",
@@ -29,7 +25,7 @@ router.post("/", async (req, res) => {
           if (!match) {
             res.status(409).send({ message: "PASSWORD IS INCORRECT." });
           } else {
-            if (result[0].isVerify === "false") {
+            if (!result[0].isVerify) {
               return MessageMailer(email, emailToken).then(() =>
                 res.status(409).send({
                   message:
