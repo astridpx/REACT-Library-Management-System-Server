@@ -62,11 +62,14 @@ app.listen(port, () => {
 });
 
 db.getConnection((err, conn) => {
-  if (!err) {
-    console.log("MySQL connection stablished...");
-  } else {
-    console.log("MySQL connection is broken.");
-    throw err;
+  try {
+    if (!err) {
+      console.log("MySQL connection stablished...");
+    } else {
+      console.log("MySQL connection is broken.");
+    }
+  } catch (error) {
+    console.log(error);
   }
 });
 
