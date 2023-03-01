@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2023 at 03:01 AM
+-- Generation Time: Mar 01, 2023 at 02:15 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -43,10 +43,10 @@ INSERT INTO `booklist` (`BOOK_ID`, `isbn`, `title`, `author`, `published_date`) 
 (11, '777-1372-197', 'WEB 3', 'Jack Smith', '2023-02-16'),
 (12, '791-7973-197', 'C++', 'Jon Clark', '2022-11-09'),
 (14, '667-3012-973', 'ENGLISH', 'Mark Chanbiz', '2023-02-16'),
-(18, '828-1821-891', 'NETWORKING', 'Mark Alsino', '2022-11-14'),
+(18, '828-1821-890', 'NETWORKING', 'Mark Alsino', '2022-11-29'),
 (19, '212-3213-123', 'GAME DEVELOPMENT', 'Joan Canstanas', '2022-11-01'),
 (20, '917-7219-729', 'MACHINE LEARNING', 'Mark Gutson', '2022-11-29'),
-(21, '818-3810-831', 'MATH', 'James Bond', '2022-10-26'),
+(21, '818-3810-831', 'MATHEMATICS', 'James Bond', '2022-10-26'),
 (22, '047-2277-427', 'CLOUD COMPUTING', 'James Henry', '2022-02-20'),
 (25, '018-3018-381', 'PHP BOOK', 'Mark Andrew', '2022-12-20'),
 (31, '794-7127-423', 'ARTICLES OF THE PHILIPPINES', 'Rein Sigua', '2023-02-01'),
