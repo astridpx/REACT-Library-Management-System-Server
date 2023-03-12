@@ -4,6 +4,7 @@ const db = require("../config/config");
 const jwt = require("jsonwebtoken");
 const emailValidator = require("./Email/emailValidator");
 const MessageMailer = require("./Email/nodemailer/SendEmail");
+
 // SALT ROUNDS
 const salt = 10;
 
@@ -107,48 +108,46 @@ router.post("/register", async (req, res) => {
     [studNo],
     (err, exist) => {
       // CHECK IF THE STUDENT NO IS ALREADY EXIST
-      if (exist.length > 0) {
-        res.status(409).send({
+      if (exist.length > 0)
+        return res.status(409).send({
           message:
             "The Student ID is already registered. Make sure you use your own ID.",
         });
-      } else {
-        db.query(
-          "SELECT * FROM student_acc WHERE email=?",
-          [email],
-          (err, exists) => {
-            // CHECK IF THE EMAIL IS ALREADY EXIST
-            if (exists.length > 0) {
-              res.status(409).send({
-                message: "Email is already registerd. Try to use other email.",
-              });
-            } else {
-              // HASH PASSWORD
-              bcrypt.hash(password, salt, (err, hashPassword) => {
-                if (err) throw err;
 
-                db.query(
-                  "INSERT INTO student_acc (name, stud_no, course, section, email, password) VALUES(?, ?, ?, ?, ?, ?)",
-                  [name, studNo, course, section, email, hashPassword],
-                  (err, result) => {
-                    if (err) {
-                      res
-                        .status(409)
-                        .send({ message: "SOMETHING WENT WRONG " + err });
-                    } else {
-                      MessageMailer(email, emailToken);
-                      res.status(200).send({
-                        message:
-                          "User Registered Successfully. Please wait for the admin confirmation and don't forget to confirm your own email.",
-                      });
-                    }
-                  }
-                );
-              });
-            }
-          }
-        );
-      }
+      db.query(
+        "SELECT * FROM student_acc WHERE email=?",
+        [email],
+        (err, exists) => {
+          // CHECK IF THE EMAIL IS ALREADY EXIST
+          if (exists.length > 0)
+            return res.status(409).send({
+              message: "Email is already registerd. Try to use other email.",
+            });
+
+          // HASH PASSWORD
+          bcrypt.hash(password, salt, (err, hashPassword) => {
+            if (err) throw err;
+
+            db.query(
+              "INSERT INTO student_acc (name, stud_no, course, section, email, password) VALUES(?, ?, ?, ?, ?, ?)",
+              [name, studNo, course, section, email, hashPassword],
+              (err, result) => {
+                if (err) {
+                  res
+                    .status(409)
+                    .send({ message: "SOMETHING WENT WRONG " + err });
+                } else {
+                  MessageMailer(email, emailToken);
+                  res.status(200).send({
+                    message:
+                      "User Registered Successfully. Please wait for the admin confirmation and don't forget to confirm your own email.",
+                  });
+                }
+              }
+            );
+          });
+        }
+      );
     }
   );
 });
