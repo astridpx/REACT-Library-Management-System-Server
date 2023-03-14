@@ -2,9 +2,8 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../config/config");
-// const cookieParser = require("cookie-parser");
-// const bodyParser = require("body-parser");
-// const session = require("express-session");
+const emailValidator = require("./Email/emailValidator");
+
 require("dotenv").config();
 
 const salt = 10;
@@ -94,4 +93,5 @@ router.put("/update-admin/:id", async (req, res) => {
     );
   });
 });
+
 module.exports = router;
