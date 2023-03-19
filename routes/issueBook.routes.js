@@ -12,51 +12,57 @@ router.post("/issue", async (req, res) => {
   const returnDate = req.body.returnDate;
 
   db.query("SELECT * FROM booklist WHERE isbn=?", [isbn], (err, isbnResult) => {
-    if (isbnResult.length > 0) {
-      db.query(
-        "SELECT * from student_acc WHERE email=?",
-        [email],
-        (err, emailResult) => {
-          if (emailResult.length > 0) {
-            // console.log(isbnResult[0].BOOK_ID);
+    if (isbnResult.length < 1)
+      return res
+        .status(409)
+        .send({ message: "ISBN NOT FOUND IN THE BOOKLIST." });
+
+    db.query(
+      "SELECT * from student_acc WHERE email=?",
+      [email],
+      (err, emailResult) => {
+        if (emailResult.length < 1)
+          return res.status(409).send({ message: "EMAIL NOT FOUND." });
+
+        db.query(
+          "SELECT * FROM issue_book WHERE BOOK_ID=?",
+          [isbnResult[0].BOOK_ID],
+          (err, result) => {
+            if (result.length > 0) {
+              return res.status(409).send({
+                message: "SORRY THIS BOOK CURRENTLY IN SOMEONE PREVILAGE.",
+              });
+            }
+
             db.query(
-              "SELECT * FROM issue_book WHERE BOOK_ID=?",
-              [isbnResult[0].BOOK_ID],
-              (err, result) => {
-                if (result.length > 0) {
-                  res.status(409).send({
-                    message: "SORRY THIS BOOK CURRENTLY IN SOMEONE PREVILAGE.",
-                  });
-                } else {
-                  db.query(
-                    "INSERT INTO issue_book (BOOK_ID, STUD_ID, issue_date, return_date) VALUES(?, ?, ?, ?)",
-                    [
-                      isbnResult[0].BOOK_ID,
-                      emailResult[0].STUD_ID,
-                      issueDate,
-                      returnDate,
-                    ],
-                    (err, result) => {
-                      if (result) {
-                        res
-                          .status(200)
-                          .send({ message: "ISSUE BOOK SUCCESS." });
-                      }
+              "SELECT * FROM issue_book WHERE STUD_ID=?",
+              [emailResult[0].STUD_ID],
+              (err, StudIdresult) => {
+                if (StudIdresult.length >= 3)
+                  return res
+                    .status(409)
+                    .send({ message: "You can't borrow books more than 3" });
+
+                db.query(
+                  "INSERT INTO issue_book (BOOK_ID, STUD_ID, issue_date, return_date) VALUES(?, ?, ?, ?)",
+                  [
+                    isbnResult[0].BOOK_ID,
+                    emailResult[0].STUD_ID,
+                    issueDate,
+                    returnDate,
+                  ],
+                  (err, result) => {
+                    if (result) {
+                      res.status(200).send({ message: "ISSUE BOOK SUCCESS." });
                     }
-                  );
-                  // res.status(200).send({ message: "YOURE GOOD TO GO" });
-                }
+                  }
+                );
               }
             );
-          } else {
-            // res.status(409).send({ message: "PLS CONFIRM YOUR EMAIL." });
-            res.status(409).send({ message: "EMAIL NOT FOUND." });
           }
-        }
-      );
-    } else {
-      res.status(409).send({ message: "ISBN NOT FOUND IN THE BOOKLIST." });
-    }
+        );
+      }
+    );
   });
 });
 
