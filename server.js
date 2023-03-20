@@ -17,8 +17,11 @@ const studentRecord = require("./routes/student.routes");
 // TOKEN ROUTES
 const TokenVeifyRoutes = require("./routes/token Verification/tokenVerify.routes");
 const EmailTokenRoutes = require("./routes/Email/EmailToken.routes");
+
 // db config
 const db = require("./config/config");
+
+const BooksDueDateFunction = require("./Helpers/BooksDueDate");
 
 // middleware
 app.use(express.json());
@@ -26,20 +29,11 @@ app.set("view engine", "ejs");
 // app.use(cors());
 app.use(
   cors({
-    // origin: ["http://localhost:5000"],
     origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
@@ -52,17 +46,12 @@ db.getConnection((err, conn) => {
       console.log("MySQL connection stablished...");
     } else {
       console.log("MySQL connection is broken.");
+      console.log(err);
     }
   } catch (error) {
     console.log(error);
   }
 });
-
-// db.connect((err) => {
-//   if (!err) {
-//     console.log("MySQL connection stablished...");
-//   }
-// });
 
 // const Logger = (req, res, next) => {
 //   console.log(
@@ -74,6 +63,7 @@ db.getConnection((err, conn) => {
 // };
 
 // app.use(Logger);
+app.use(BooksDueDateFunction);
 app.use("/admin", adminRouter);
 app.use("/token", TokenVeifyRoutes);
 app.use("/email-token", EmailTokenRoutes);
