@@ -25,6 +25,11 @@ router.post("/issue", async (req, res) => {
         if (emailResult.length < 1)
           return res.status(409).send({ message: "EMAIL NOT FOUND." });
 
+        if (emailResult[0].role === "applicants")
+          return res
+            .status(409)
+            .send({ message: "This Account is not accepted yet." });
+
         db.query(
           "SELECT * FROM issue_book WHERE BOOK_ID=?",
           [isbnResult[0].BOOK_ID],
