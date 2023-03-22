@@ -8,7 +8,18 @@ const bcrypt = require("bcrypt");
 router.get("/", async (req, res) => {
   db.query(
     // "SELECT * FROM issue_book ib LEFT JOIN booklist bk ON bk.BOOK_ID = ib.BOOK_ID LEFT JOIN student_acc sa ON sa.STUD_ID = ib.STUD_ID;",
-    "SELECT ib.ISSUE_ID, ib.issue_date,ib.return_date, bk.BOOK_ID, bk.isbn, bk.title, sa.STUD_ID, sa.stud_no, sa.name, sa.email FROM issue_book ib LEFT JOIN booklist bk ON bk.BOOK_ID = ib.BOOK_ID LEFT JOIN student_acc sa ON sa.STUD_ID = ib.STUD_ID;",
+    "SELECT ib.ISSUE_ID, ib.issue_date,ib.return_date,ib.isDueDate, bk.BOOK_ID, bk.isbn, bk.title, sa.STUD_ID, sa.stud_no, sa.name, sa.email FROM issue_book ib LEFT JOIN booklist bk ON bk.BOOK_ID = ib.BOOK_ID LEFT JOIN student_acc sa ON sa.STUD_ID = ib.STUD_ID;",
+    (err, result) => {
+      res.json(result);
+    }
+  );
+});
+
+// Get  ALL Record of reach the due date
+router.get("/expire-records", async (req, res) => {
+  db.query(
+    // "SELECT * FROM issue_book ib LEFT JOIN booklist bk ON bk.BOOK_ID = ib.BOOK_ID LEFT JOIN student_acc sa ON sa.STUD_ID = ib.STUD_ID;",
+    "SELECT ib.ISSUE_ID, ib.issue_date,ib.return_date,ib.isDueDate, bk.BOOK_ID, bk.isbn, bk.title, sa.STUD_ID, sa.stud_no, sa.name, sa.email FROM issue_book ib LEFT JOIN booklist bk ON bk.BOOK_ID = ib.BOOK_ID LEFT JOIN student_acc sa ON sa.STUD_ID = ib.STUD_ID WHERE ib.isDueDate = 1;",
     (err, result) => {
       res.json(result);
     }
@@ -124,7 +135,25 @@ router.get("/:search", async (req, res) => {
   const searchValue = req.params.search;
   db.query(
     // "SELECT * FROM issue_book ib LEFT JOIN booklist bk ON bk.BOOK_ID = ib.BOOK_ID LEFT JOIN student_acc sa ON sa.STUD_ID = ib.STUD_ID;",
-    'SELECT ib.ISSUE_ID, ib.issue_date,ib.return_date, bk.BOOK_ID, bk.isbn, bk.title, sa.STUD_ID, sa.stud_no, sa.name, sa.email FROM issue_book ib LEFT JOIN booklist bk ON bk.BOOK_ID = ib.BOOK_ID LEFT JOIN student_acc sa ON sa.STUD_ID = ib.STUD_ID WHERE CONCAT(ib.ISSUE_ID, ib.issue_date,ib.return_date, bk.BOOK_ID, bk.isbn, bk.title, sa.STUD_ID, sa.stud_no, sa.name, sa.email)  LIKE "%' +
+    'SELECT ib.ISSUE_ID, ib.issue_date,ib.return_date,ib.isDueDate, bk.BOOK_ID, bk.isbn, bk.title, sa.STUD_ID, sa.stud_no, sa.name, sa.email FROM issue_book ib LEFT JOIN booklist bk ON bk.BOOK_ID = ib.BOOK_ID LEFT JOIN student_acc sa ON sa.STUD_ID = ib.STUD_ID WHERE CONCAT(ib.ISSUE_ID, ib.issue_date,ib.return_date, bk.BOOK_ID, bk.isbn, bk.title, sa.STUD_ID, sa.stud_no, sa.name, sa.email)  LIKE "%' +
+      searchValue +
+      '%"',
+    (err, result) => {
+      if (result) {
+        if (result.length === 0) return res.json("No keyword match.");
+        else return res.json(result);
+      } else {
+        res.status(409).send({ message: "SOMETHING WENT WRONG " + err });
+      }
+    }
+  );
+});
+// SEARCH FILTER FOR ALL EXPIRE RECORDS
+router.get("/expire-records/:search", async (req, res) => {
+  const searchValue = req.params.search;
+  db.query(
+    // "SELECT * FROM issue_book ib LEFT JOIN booklist bk ON bk.BOOK_ID = ib.BOOK_ID LEFT JOIN student_acc sa ON sa.STUD_ID = ib.STUD_ID;",
+    'SELECT ib.ISSUE_ID, ib.issue_date,ib.return_date,ib.isDueDate, bk.BOOK_ID, bk.isbn, bk.title, sa.STUD_ID, sa.stud_no, sa.name, sa.email FROM issue_book ib LEFT JOIN booklist bk ON bk.BOOK_ID = ib.BOOK_ID LEFT JOIN student_acc sa ON sa.STUD_ID = ib.STUD_ID WHERE ib.isDueDate = 1 AND CONCAT(ib.ISSUE_ID, ib.issue_date,ib.return_date, bk.BOOK_ID, bk.isbn, bk.title, sa.STUD_ID, sa.stud_no, sa.name, sa.email)  LIKE "%' +
       searchValue +
       '%"',
     (err, result) => {
