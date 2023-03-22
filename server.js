@@ -13,6 +13,7 @@ const issueBookRouter = require("./routes/issueBook.routes");
 const allRecordsRouter = require("./routes/allRecords.routes");
 const profileImgRoutes = require("./routes/profile-Images.routes");
 const studentRecord = require("./routes/student.routes");
+const barGraph = require("././routes/BargGraph/BarGraph.routes");
 
 // TOKEN ROUTES
 const TokenVeifyRoutes = require("./routes/token Verification/tokenVerify.routes");
@@ -22,6 +23,7 @@ const EmailTokenRoutes = require("./routes/Email/EmailToken.routes");
 const db = require("./config/config");
 
 const BooksDueDateFunction = require("./Helpers/BooksDueDate");
+const BarGraphReset = require("./routes/BargGraph/graph-function");
 
 // middleware
 app.use(express.json());
@@ -63,8 +65,10 @@ db.getConnection((err, conn) => {
 // };
 
 // app.use(Logger);
+setInterval(BarGraphReset, 10000);
 app.use(BooksDueDateFunction);
 app.use("/admin", adminRouter);
+app.use("/graph", barGraph);
 app.use("/token", TokenVeifyRoutes);
 app.use("/email-token", EmailTokenRoutes);
 app.use("/books", bookRoutes);

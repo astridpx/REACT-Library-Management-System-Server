@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const db = require("../config/config");
+const AddDataFunction = require("../routes/BargGraph/AddDataFunction");
 
 // ISSUE BOOK
 router.post("/issue", async (req, res) => {
@@ -54,6 +55,7 @@ router.post("/issue", async (req, res) => {
                   (err, result) => {
                     if (result) {
                       res.status(200).send({ message: "ISSUE BOOK SUCCESS." });
+                      AddDataFunction(1);
                     }
                   }
                 );
