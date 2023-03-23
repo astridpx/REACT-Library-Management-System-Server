@@ -10,10 +10,11 @@ const MessageMailer = async function (email, token) {
   });
 
   let details = {
-    from: "styles132001@gmail.com",
+    from: "SVCC LMS <no-reply.styles132001@gmail.com>",
     to: email,
     subject: "SVCC Library",
     html: `<p>Click <a href="${process.env.EMAIL_TOKEN_URL}/email-token/${email}/${token}" target="_blank">here</a> to confirm your account</p>`,
+    replyTo: "styles132001@gmail.com",
   };
 
   transporter.sendMail(details, (err) => {
