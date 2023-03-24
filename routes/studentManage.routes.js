@@ -75,11 +75,11 @@ router.post("/register", async (req, res) => {
   // Email Validator
   const { valid, reason, validators } = await emailValidator(email);
 
-  if (!valid)
-    return res.status(400).send({
-      message: "Please provide a valid email address.",
-      reason: validators[reason].reason,
-    });
+  // if (!valid)
+  //   return res.status(400).send({
+  //     message: "Please provide a valid email address.",
+  //     reason: validators[reason].reason,
+  //   });
 
   //  GEnerate token for email confirmation
   const emailToken = jwt.sign({ email: email }, process.env.EMAIL_TOKEN_KEY, {
