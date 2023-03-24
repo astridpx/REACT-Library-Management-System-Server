@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 01, 2023 at 02:15 PM
+-- Generation Time: Mar 24, 2023 at 03:07 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -53,7 +53,7 @@ INSERT INTO `student_acc` (`STUD_ID`, `name`, `stud_no`, `image`, `course`, `sec
 (22, 'Jerick Reyes', 'AY0230-92107', '', 'BSIT', 'BSIT-3A1', 'jerick@gmail.com', '$2b$10$8c9xh0pXqfISE6yfb6tFzuZY1uJ7jE/tgWeCz.lqoKkqHC2WQB9IS', 'false', 'student', 1),
 (23, 'Alyanna Rivera', 'AY2020-03255', '', 'BSED', 'BSED-2A1', 'yanna@gmail.com', '$2b$10$ASMpBn1qFwi2u1gOAJb5HOJ7BOqjThdJJRrqMr52uRAJaxep1Jpe6', 'false', 'applicants', 1),
 (24, 'Jenny Reyes', 'AY3127-31273', 'https://res.cloudinary.com/df1qkteyi/image/upload/v1677108471/svcc-library-profiles/qrnkyd3dppsgiga2hgxz.jpg', 'BSED', 'BSED-4B1', 'jenny@gmail.com', '$2b$10$68aupK31uHMdnKkplkMt1Ol2q77DWk2A5PuNNeqk2oGmimTxee/e2', 'false', 'student', 0),
-(31, '00000', 'AY0000-00000', '', '0000', '0000', 'iskycruise01@gmail.com', '$2b$10$OcPx8tgJGCTS0MzUCEDW4eJG7rc0pYwet4AsAweMqMAv/R7Fjp3wO', 'false', 'student', 1);
+(37, 'Christian', 'AY9127-39217', '', 'BSIT', '1D1', 'trickster2214@gmail.com', '$2b$10$qbPOijAIGit6yvwzUaVSt..NClftE1QjhOk12.QR6hel6fNtfY95O', 'false', 'student', 1);
 
 --
 -- Indexes for dumped tables
@@ -73,7 +73,7 @@ ALTER TABLE `student_acc`
 -- AUTO_INCREMENT for table `student_acc`
 --
 ALTER TABLE `student_acc`
-  MODIFY `STUD_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `STUD_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 01, 2023 at 02:15 PM
+-- Generation Time: Mar 24, 2023 at 03:06 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -24,44 +24,47 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `issue_book`
+-- Table structure for table `bargraph`
 --
 
-CREATE TABLE `issue_book` (
-  `ISSUE_ID` int(11) NOT NULL,
-  `STUD_ID` int(11) NOT NULL,
-  `BOOK_ID` int(11) NOT NULL,
-  `issue_date` date NOT NULL,
-  `return_date` date NOT NULL
+CREATE TABLE `bargraph` (
+  `ID` int(11) NOT NULL,
+  `D1` int(11) NOT NULL,
+  `D2` int(11) NOT NULL,
+  `D3` int(11) NOT NULL,
+  `D4` int(11) NOT NULL,
+  `D5` int(11) NOT NULL,
+  `D6` int(11) NOT NULL,
+  `D7` int(11) NOT NULL,
+  `past_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `issue_book`
+-- Dumping data for table `bargraph`
 --
 
-INSERT INTO `issue_book` (`ISSUE_ID`, `STUD_ID`, `BOOK_ID`, `issue_date`, `return_date`) VALUES
-(32, 3, 11, '2022-12-13', '2022-12-19'),
-(41, 17, 18, '2023-02-14', '2023-02-16');
+INSERT INTO `bargraph` (`ID`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `past_date`) VALUES
+(1, 43, 50, 64, 28, 42, 20, 10, '2023-03-24');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `issue_book`
+-- Indexes for table `bargraph`
 --
-ALTER TABLE `issue_book`
-  ADD PRIMARY KEY (`ISSUE_ID`);
+ALTER TABLE `bargraph`
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `issue_book`
+-- AUTO_INCREMENT for table `bargraph`
 --
-ALTER TABLE `issue_book`
-  MODIFY `ISSUE_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+ALTER TABLE `bargraph`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
