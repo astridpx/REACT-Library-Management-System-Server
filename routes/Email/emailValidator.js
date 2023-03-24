@@ -14,5 +14,5 @@ module.exports = ValidateEmail = async (email) => {
   //       reason: "smtp",
   //     },
   //   ];
-  return emailValidator.validate(email);
+  return await emailValidator.validate(email);
 };
