@@ -2,6 +2,8 @@ const moment = require("moment");
 const db = require("../../config/config");
 
 module.exports = BarGraphRefresh = () => {
+  console.log("bargraph function validating...");
+
   db.query("SELECT * FROM bargraph", async (err, result) => {
     const day = await result.map((data) => {
       return data;
@@ -26,7 +28,7 @@ module.exports = BarGraphRefresh = () => {
             past_date: moment().format("YY-MM-DD"),
           },
         ],
-        async (err, refresh) => {
+        (err, refresh) => {
           if (refresh) return console.log("The Graph DB is Refresh");
           if (err) console.log(err);
         }
