@@ -46,6 +46,7 @@ db.getConnection((err, conn) => {
   try {
     if (!err) {
       console.log("MySQL connection stablished...");
+      setInterval(BarGraphReset, 10000);
     } else {
       console.log("MySQL connection is broken.");
       console.log(err);
@@ -65,7 +66,6 @@ db.getConnection((err, conn) => {
 // };
 
 // app.use(Logger);
-setInterval(BarGraphReset, 10000);
 app.use(BooksDueDateFunction);
 app.use("/admin", adminRouter);
 app.use("/graph", barGraph);
