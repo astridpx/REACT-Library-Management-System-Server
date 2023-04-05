@@ -23,6 +23,7 @@ const EmailTokenRoutes = require("./routes/Email/EmailToken.routes");
 const db = require("./config/config");
 
 const BooksDueDateFunction = require("./Helpers/BooksDueDate");
+const BooksPayfines = require("./Helpers/BooksPayfines");
 const BarGraphReset = require("./routes/BargGraph/graph-function");
 
 // middleware
@@ -46,7 +47,9 @@ db.getConnection((err, conn) => {
   try {
     if (!err) {
       console.log("MySQL connection stablished...");
+
       setInterval(BarGraphReset, 10000);
+      setInterval(BooksPayfines, 10000);
     } else {
       console.log("MySQL connection is broken.");
       console.log(err);
