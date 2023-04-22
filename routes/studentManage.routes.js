@@ -10,19 +10,22 @@ const salt = 10;
 
 // GET ALL STUDENTS LIST
 router.get("/", async (req, res) => {
-  db.query("SELECT * FROM student_acc WHERE role='student'", (err, result) => {
-    if (err) {
-      res.status(409).send({ message: "SOMETHING WENT WRONG " + err });
-    } else {
-      res.json(result);
+  db.query(
+    "SELECT * FROM student_acc WHERE role='student' ORDER BY stud_no ASC",
+    (err, result) => {
+      if (err) {
+        res.status(409).send({ message: "SOMETHING WENT WRONG " + err });
+      } else {
+        res.json(result);
+      }
     }
-  });
+  );
 });
 
 // GET ALL APPLICANTS
 router.get("/applicants", async (req, res) => {
   db.query(
-    "SELECT * FROM student_acc WHERE role='applicants'",
+    "SELECT * FROM student_acc WHERE role='applicants' ORDER BY stud_no ASC",
     (err, result) => {
       if (err) {
         res.status(409).send({ message: "SOMETHING WENT WRONG " + err });
