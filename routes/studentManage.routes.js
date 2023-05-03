@@ -37,7 +37,7 @@ router.get("/:program", async (req, res) => {
 });
 
 // GET ALL APPLICANTS
-router.get("/applicants", async (req, res) => {
+router.get("/stud/applicants", async (req, res) => {
   db.query(
     "SELECT * FROM student_acc WHERE role='applicants' ORDER BY stud_no ASC",
     (err, result) => {
