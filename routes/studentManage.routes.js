@@ -22,6 +22,20 @@ router.get("/", async (req, res) => {
   );
 });
 
+router.get("/:program", async (req, res) => {
+  db.query(
+    "SELECT * FROM student_acc WHERE role='student' AND course = ? ORDER BY stud_no ASC",
+    [req.params.program],
+    (err, result) => {
+      if (err) {
+        res.status(409).send({ message: "SOMETHING WENT WRONG " + err });
+      } else {
+        res.json(result);
+      }
+    }
+  );
+});
+
 // GET ALL APPLICANTS
 router.get("/applicants", async (req, res) => {
   db.query(
