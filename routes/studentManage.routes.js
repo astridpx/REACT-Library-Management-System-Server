@@ -90,7 +90,6 @@ router.post("/register", async (req, res) => {
   const password = req.body.password;
 
   // Email Validator
-  const { valid, reason, validators } = await emailValidator(email);
 
   // if (!valid)
   //   return res.status(400).send({
