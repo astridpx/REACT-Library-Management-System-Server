@@ -87,15 +87,13 @@ router.post("/register", async (req, res) => {
   const section = req.body.section;
   const course = req.body.course;
   const email = req.body.email;
+  const cpassword = req.body.cpassword;
   const password = req.body.password;
 
-  // Email Validator
-
-  // if (!valid)
-  //   return res.status(400).send({
-  //     message: "Please provide a valid email address.",
-  //     reason: validators[reason].reason,
-  //   });
+  if (cpassword != password)
+    return res.status(409).send({
+      message: "Password didn't match!.",
+    });
 
   //  GEnerate token for email confirmation
   const emailToken = jwt.sign({ email: email }, process.env.EMAIL_TOKEN_KEY, {
