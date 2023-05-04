@@ -146,7 +146,7 @@ router.get("/:search", async (req, res) => {
   const searchValue = req.params.search;
   db.query(
     // "SELECT * FROM issue_book ib LEFT JOIN booklist bk ON bk.BOOK_ID = ib.BOOK_ID LEFT JOIN student_acc sa ON sa.STUD_ID = ib.STUD_ID;",
-    'SELECT ib.ISSUE_ID, ib.issue_date,ib.return_date,ib.isDueDate, bk.BOOK_ID, bk.isbn, bk.title, sa.STUD_ID, sa.stud_no, sa.name, sa.email FROM issue_book ib LEFT JOIN booklist bk ON bk.BOOK_ID = ib.BOOK_ID LEFT JOIN student_acc sa ON sa.STUD_ID = ib.STUD_ID WHERE CONCAT(ib.ISSUE_ID, ib.issue_date,ib.return_date, bk.BOOK_ID, bk.isbn, bk.title, sa.STUD_ID, sa.stud_no, sa.name, sa.email)  LIKE "%' +
+    'SELECT ib.ISSUE_ID, ib.issue_date,ib.return_date,ib.isDueDate,ib.payfines, bk.BOOK_ID, bk.isbn, bk.title, sa.STUD_ID, sa.stud_no, sa.name, sa.email FROM issue_book ib LEFT JOIN booklist bk ON bk.BOOK_ID = ib.BOOK_ID LEFT JOIN student_acc sa ON sa.STUD_ID = ib.STUD_ID WHERE CONCAT(ib.ISSUE_ID, ib.issue_date,ib.return_date, bk.BOOK_ID, bk.isbn, bk.title, sa.STUD_ID, sa.stud_no, sa.name, sa.email)  LIKE "%' +
       searchValue +
       '%"',
     (err, result) => {
