@@ -329,42 +329,46 @@ router.delete("/disband/:id", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  db.query("SELECT * FROM admin WHERE email=?", [email], (err, result) => {
-    if (result.length > 0) {
-      bcrypt.compare(password, result[0].password).then((match) => {
-        if (!match) {
-          res.status(409).send({ message: "Invalid Password." });
-        } else {
-          db.query(
-            "SELECT * FROM issue_book WHERE STUD_ID=?",
-            [req.params.id],
-            (err, result) => {
-              if (result.length > 0) {
-                res.status(409).send({
-                  message:
-                    "SORRY YOU CAN'T DELETE  ACCOUNT  WITH A PENDING TRANSACTION.",
-                });
-              } else {
-                db.query(
-                  "DELETE FROM student_acc WHERE STUD_ID=?",
-                  [req.params.id],
-                  (err, result) => {
-                    if (result) {
-                      res.status(201).send({
-                        message: "USER ACCOUNT DEACTIVATED SUCCESSFULLY.",
-                      });
+  db.query(
+    "SELECT * FROM system_admin WHERE email=?",
+    [email],
+    (err, result) => {
+      if (result.length > 0) {
+        bcrypt.compare(password, result[0].password).then((match) => {
+          if (!match) {
+            res.status(409).send({ message: "Invalid Password." });
+          } else {
+            db.query(
+              "SELECT * FROM issue_book WHERE STUD_ID=?",
+              [req.params.id],
+              (err, result) => {
+                if (result.length > 0) {
+                  res.status(409).send({
+                    message:
+                      "SORRY YOU CAN'T DELETE  ACCOUNT  WITH A PENDING TRANSACTION.",
+                  });
+                } else {
+                  db.query(
+                    "DELETE FROM student_acc WHERE STUD_ID=?",
+                    [req.params.id],
+                    (err, result) => {
+                      if (result) {
+                        res.status(201).send({
+                          message: "USER ACCOUNT DEACTIVATED SUCCESSFULLY.",
+                        });
+                      }
                     }
-                  }
-                );
+                  );
+                }
               }
-            }
-          );
-        }
-      });
-    } else {
-      res.status(409).send({ message: "Email Doesn't Exist." });
+            );
+          }
+        });
+      } else {
+        res.status(409).send({ message: "Email Doesn't Exist." });
+      }
     }
-  });
+  );
 });
 
 module.exports = router;
