@@ -14,6 +14,7 @@ const allRecordsRouter = require("./routes/allRecords.routes");
 const profileImgRoutes = require("./routes/profile-Images.routes");
 const studentRecord = require("./routes/student.routes");
 const barGraph = require("././routes/BargGraph/BarGraph.routes");
+const systemAdminRoutes = require("./routes/system-admin.routes");
 
 // TOKEN ROUTES
 const TokenVeifyRoutes = require("./routes/token Verification/tokenVerify.routes");
@@ -70,6 +71,7 @@ db.getConnection((err, conn) => {
 
 // app.use(Logger);
 app.use(BooksDueDateFunction);
+app.use("/system-admin", systemAdminRoutes);
 app.use("/admin", adminRouter);
 app.use("/graph", barGraph);
 app.use("/token", TokenVeifyRoutes);
